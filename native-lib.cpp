@@ -1,34 +1,69 @@
 #include <jni.h>
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/opencv.hpp>
+#include <android/asset_manager_jni.h>
+#include <android/log.h>
 
 using namespace cv;
-extern "C"
+using namespace std;
 
-JNIEXPORT jint JNICALL
-Java_com_example_yu_opencvhist_MainActivity_CompareHistogram(JNIEnv *env, jobject instance,
-                                                             jstring filename1_,
-                                                             jstring filename2_) {
-    const char *filename1 = env->GetStringUTFChars(filename1_, 0);
-    const char *filename2 = env->GetStringUTFChars(filename2_, 0);
+extern "C" {
 
-    // TODO
-    // Load images to compare
-    int retVal=0;
-    Mat img1 = imread(filename1, IMREAD_COLOR);
-    Mat img2 = imread(filename2, IMREAD_COLOR);
+JNIEXPORT void JNICALL
+Java_com_example_yu_opencvhist_MainActivity_loadImage1(
+        JNIEnv *env,
+        jobject,
+        jstring imageFileName,
+        jlong addrImage) {
+
+    Mat &img1 = *(Mat *) addrImage;
+
+    const char *nativeFileNameString = env->GetStringUTFChars(imageFileName, JNI_FALSE);
+
+    string baseDir("/storage/emulated/0/");
+    baseDir.append(nativeFileNameString);
+    const char *pathDir = baseDir.c_str();
+
+    img1 = imread(pathDir, IMREAD_COLOR);
+
+}
+
+JNIEXPORT void JNICALL
+Java_com_example_yu_opencvhist_MainActivity_loadImage2(
+        JNIEnv *env,
+        jobject,
+        jstring imageFileName,
+        jlong addrImage) {
+
+    Mat &img2 = *(Mat *) addrImage;
+
+    const char *nativeFileNameString = env->GetStringUTFChars(imageFileName, JNI_FALSE);
+
+    string baseDir("/storage/emulated/0/");
+    baseDir.append(nativeFileNameString);
+    const char *pathDir = baseDir.c_str();
+
+    img2 = imread(pathDir, IMREAD_COLOR);
+
+}
+
+JNIEXPORT jdouble JNICALL
+Java_com_example_yu_opencvhist_MainActivity_compare(
+        JNIEnv *env,
+        jobject,
+        jlong addrInputImage,
+        jlong addrOutputImage) {
+
+    int retVal = 0;
+    Mat &img1 = *(Mat *) addrInputImage;
+    Mat &img2 = *(Mat *) addrOutputImage;
     Mat hsvImg1;
     Mat hsvImg2;
 
+    cvtColor( img1, hsvImg1, CV_BGR2HSV);
+    cvtColor( img2, hsvImg2, CV_BGR2HSV);
 
-    // Convert to HSV
-    cvtColor(img1, hsvImg1, COLOR_BGR2HSV);
-    cvtColor(img2, hsvImg2, COLOR_BGR2HSV);
-
-
-    // Set configuration for calchist()
-    int h_bins = 50; int s_bins = 60;
+    /// Using 50 bins for hue and 60 for saturation
+    int h_bins = 60; int s_bins = 60;
     int histSize[] = { h_bins, s_bins };
 
     // hue varies from 0 to 179, saturation from 0 to 255
@@ -40,23 +75,25 @@ Java_com_example_yu_opencvhist_MainActivity_CompareHistogram(JNIEnv *env, jobjec
     // Use the o-th and 1-st channels
     int channels[] = { 0, 1 };
 
-    // Histograms
-    MatND histImg1;
-    MatND histImg2;
+    /// Histograms
+    MatND hist_img1;
+    MatND hist_img2;
 
-    // Calculate the histogram for the HSV imgaes
-    calcHist( &hsvImg1, 1, channels, Mat(), histImg1, 2, histSize, ranges, true, false );
-    normalize( histImg1, histImg1, 0, 1, NORM_MINMAX, -1, Mat() );
+    /// Calculate the histograms for the HSV images
+    calcHist( &hsvImg1, 1, channels, Mat(), hist_img1, 2, histSize, ranges, true, false );
+    normalize( hist_img1, hist_img1, 0, 1, NORM_MINMAX, -1, Mat() );
 
-    calcHist( &hsvImg2, 1, channels, Mat(), histImg2, 2, histSize, ranges, true, false );
-    normalize( histImg2, histImg2, 0, 1, NORM_MINMAX, -1, Mat() );
+    calcHist( &hsvImg2, 1, channels, Mat(), hist_img2, 2, histSize, ranges, true, false );
+    normalize( hist_img2, hist_img2, 0, 1, NORM_MINMAX, -1, Mat() );
 
-    double result0 = compareHist(histImg1, histImg2, 0);
-    double result1 = compareHist(histImg1, histImg2, 1);
-    double result2 = compareHist(histImg1, histImg2, 2);
-    double result3 = compareHist(histImg1, histImg2, 3);
+    /// Apply the histogram comparison methods
 
-    int count=0;
+    double result0 = compareHist(hist_img1, hist_img2, 0);
+    double result1 = compareHist(hist_img1, hist_img2, 1);
+    double result2 = compareHist(hist_img1, hist_img2, 2);
+    double result3 = compareHist(hist_img1, hist_img2, 3);
+
+    int count = 0;
     if (result0 > 0.9) count++;
     if (result1 < 0.1) count++;
     if (result2 > 1.5) count++;
@@ -64,6 +101,6 @@ Java_com_example_yu_opencvhist_MainActivity_CompareHistogram(JNIEnv *env, jobjec
 
     if (count >= 3) retVal = 1;
 
-    env->ReleaseStringUTFChars(filename1_, filename1);
-    env->ReleaseStringUTFChars(filename2_, filename2);
+    return result1;
+}
 }
