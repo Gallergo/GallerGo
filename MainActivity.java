@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         } else
             tv.setText("불");
     }
-      dndfhjskdfjkshfsffs beom
+     
     private void read_image_file() { //전체반복
         img1 = new Mat();
         img2 = new Mat();
