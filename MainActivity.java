@@ -115,4 +115,3 @@ public class MainActivity extends AppCompatActivity {
     public native void loadImage2(String imageFileName, long img);
     public native int compare(long Image1, long Image2);
 }
-a
