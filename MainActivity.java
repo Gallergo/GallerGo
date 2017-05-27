@@ -1,4 +1,4 @@
-package com.example.yu.opencvhist;
+package com.example.d_alz.ex1;
 
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
@@ -86,26 +86,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView tv = (TextView) findViewById(R.id.text);
-        double ret;
-
+        TextView tv = (TextView) findViewById(R.id.sample_text);
+        int ret;
+        if (!hasPermissions(PERMISSIONS)) { //퍼미션 허가를 했었는지 여부를 확인
+            requestNecessaryPermissions(PERMISSIONS);//퍼미션 허가안되어 있다면 사용자에게 요청
+        }
         read_image_file();
         ret = compare(img1.getNativeObjAddr(), img2.getNativeObjAddr());
-        tv.setText("" + ret);
+        if (ret == 1) {
+            tv.setText("일치" + ret);
+        } else
+            tv.setText("불");
     }
 
     private void read_image_file() {
-        copyFile("bear1.jpg");
-        copyFile("bear2.jpg");
+
+        copyFile("bear1.jpg"); //반복문으로 전체 이미지 읽어야됨
+        copyFile("ball.jpg");
 
         img1 = new Mat();
         img2 = new Mat();
 
-        loadImage1("bear1.jpg", img1.getNativeObjAddr());
-        loadImage2("bear2.jpg", img2.getNativeObjAddr());
+        loadImage1("bear1.jpg", img1.getNativeObjAddr()); // 선택한사진
+        loadImage2("ball.jpg", img2.getNativeObjAddr()); // 반복 비교할사진
     }
 
     public native void loadImage1(String imageFileName, long img);
     public native void loadImage2(String imageFileName, long img);
-    public native double compare(long Image1, long Image2);
+    public native int compare(long Image1, long Image2);
 }

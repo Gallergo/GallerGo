@@ -9,7 +9,7 @@ using namespace std;
 extern "C" {
 
 JNIEXPORT void JNICALL
-Java_com_example_yu_opencvhist_MainActivity_loadImage1(
+Java_com_example_d_1alz_ex1_MainActivity_loadImage1(
         JNIEnv *env,
         jobject,
         jstring imageFileName,
@@ -28,7 +28,7 @@ Java_com_example_yu_opencvhist_MainActivity_loadImage1(
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_yu_opencvhist_MainActivity_loadImage2(
+Java_com_example_d_1alz_ex1_MainActivity_loadImage2(
         JNIEnv *env,
         jobject,
         jstring imageFileName,
@@ -46,8 +46,8 @@ Java_com_example_yu_opencvhist_MainActivity_loadImage2(
 
 }
 
-JNIEXPORT jdouble JNICALL
-Java_com_example_yu_opencvhist_MainActivity_compare(
+JNIEXPORT jint JNICALL
+Java_com_example_d_1alz_ex1_MainActivity_compare(
         JNIEnv *env,
         jobject,
         jlong addrInputImage,
@@ -101,6 +101,6 @@ Java_com_example_yu_opencvhist_MainActivity_compare(
 
     if (count >= 3) retVal = 1;
 
-    return result1;
+    return retVal;
 }
 }
