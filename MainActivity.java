@@ -1,20 +1,15 @@
 package com.example.d_alz.ex1;
 
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 
 import org.opencv.core.Mat;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 //퍼미션 허가 안된 경우
                 return false;
             }
-
         }
         //모든 퍼미션이 허가된 경우
         return true;
@@ -52,41 +46,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void copyFile(String filename) {
-        String baseDir = Environment.getExternalStorageDirectory().getPath();
-        String pathDir = baseDir + File.separator + filename;
-
-        AssetManager assetManager = this.getAssets();
-
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-
-        try {
-            Log.d( TAG, "copyFile :: 다음 경로로 파일복사 "+ pathDir);
-            inputStream = assetManager.open(filename);
-            outputStream = new FileOutputStream(pathDir);
-
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, read);
-            }
-            inputStream.close();
-            inputStream = null;
-            outputStream.flush();
-            outputStream.close();
-            outputStream = null;
-        } catch (Exception e) {
-            Log.d(TAG, "copyFile :: 파일 복사 중 예외 발생 "+e.toString() );
-        }
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView tv = (TextView) findViewById(R.id.sample_text);
+
         int ret;
         if (!hasPermissions(PERMISSIONS)) { //퍼미션 허가를 했었는지 여부를 확인
             requestNecessaryPermissions(PERMISSIONS);//퍼미션 허가안되어 있다면 사용자에게 요청
@@ -94,21 +59,25 @@ public class MainActivity extends AppCompatActivity {
         read_image_file();
         ret = compare(img1.getNativeObjAddr(), img2.getNativeObjAddr());
         if (ret == 1) {
-            tv.setText("일치" + ret);
+            tv.setText("일치");
         } else
             tv.setText("불");
     }
 
-    private void read_image_file() {
-
-        copyFile("bear1.jpg"); //반복문으로 전체 이미지 읽어야됨
-        copyFile("ball.jpg");
-
+    private void read_image_file() { //전체반복
         img1 = new Mat();
         img2 = new Mat();
+        TextView tv1 = (TextView) findViewById(R.id.sample_text1);
+        TextView tv2 = (TextView) findViewById(R.id.sample_text2);
 
-        loadImage1("bear1.jpg", img1.getNativeObjAddr()); // 선택한사진
-        loadImage2("ball.jpg", img2.getNativeObjAddr()); // 반복 비교할사진
+        String path="/storage/emulated/0/DCIM/Camera/20150502_023557.jpg";
+        String filename=new File(path).getName();
+        tv1.setText(filename);
+
+        loadImage1(filename, img1.getNativeObjAddr()); // 선택한사진
+
+
+        loadImage2("20150505_061051.jpg", img2.getNativeObjAddr()); // 반복 비교할사진
     }
 
     public native void loadImage1(String imageFileName, long img);
