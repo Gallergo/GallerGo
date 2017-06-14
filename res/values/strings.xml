@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Gallergo</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">비교하기</string>
+    <string name="action_settings2">로그아웃</string>
+    <string name="action_settings3">나가기</string>
+    <!-- Tool -->
+    <string name="openDrawer">openDrawer</string>
+    <string name="closeDrawer">closeDrawer</string>
+
+</resources>

@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.ece.owngallery.MainActivity" >
+
+    <item
+        android:id="@+id/confirm"
+        android:orderInCategory="100"
+        android:title="확인"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/cancel"
+        android:orderInCategory="100"
+        android:title="취소"
+        app:showAsAction="always"/>
+</menu>

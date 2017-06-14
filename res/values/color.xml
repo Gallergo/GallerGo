@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primary">#0398e5</color>
+    <color name="primary_dark">#0277B0</color>
+    <color name="sliddercolor">#50FF5722</color>
+
+    <color name="colorPrimary">#0398e5</color>
+    <color name="colorPrimaryDark">#0277B0</color>
+    <color name="colorAccent">#546E7A</color>
+    <color name="HomePrimary">#c5e6f7</color>
+    <color name="Search">#f9de9b</color>
+    <color name="SearchPrimary">#acf7f6</color>
+    <color name="color_WHITE">#aafdfdfd</color>
+</resources>
