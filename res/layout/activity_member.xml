@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark" >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="450dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:textColor="#ffffff"
+            android:ems="10"
+            android:id="@+id/idText"
+            android:textColorHint="@color/color_WHITE"
+            android:hint="아이디" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <EditText
+            android:id="@+id/passwordText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="비밀번호"
+            android:textColor="#ffffff"
+            android:textColorHint="@color/color_WHITE"
+            android:inputType="textPassword" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:textColor="#ffffff"
+            android:textColorHint="@color/color_WHITE"
+            android:id="@+id/nameText"
+            android:hint="이름" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:textColor="#ffffff"
+            android:textColorHint="@color/color_WHITE"
+            android:id="@+id/ageText"
+            android:hint="나이" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+    </LinearLayout>
+    <Button
+        android:text="회원가입"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/memberButton"
+        android:background="@color/link_text_material_dark"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+
+
+
+</LinearLayout>
