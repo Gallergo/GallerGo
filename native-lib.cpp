@@ -1,7 +1,5 @@
 #include <jni.h>
 #include <opencv2/opencv.hpp>
-#include <android/asset_manager_jni.h>
-#include <android/log.h>
 
 using namespace cv;
 using namespace std;
@@ -9,7 +7,7 @@ using namespace std;
 extern "C" {
 
 JNIEXPORT void JNICALL
-Java_com_example_d_1alz_s_MainActivity_loadImage1(
+Java_org_ece_owngallery_activity_CompareResult_loadImage1(
         JNIEnv *env,
         jobject,
         jstring imageFileName,
@@ -19,7 +17,7 @@ Java_com_example_d_1alz_s_MainActivity_loadImage1(
 
     const char *nativeFileNameString = env->GetStringUTFChars(imageFileName, JNI_FALSE);
 
-    string baseDir("/storage/emulated/0/DCIM/Camera/");
+    string baseDir("");
     baseDir.append(nativeFileNameString);
     const char *pathDir = baseDir.c_str();
 
@@ -28,7 +26,7 @@ Java_com_example_d_1alz_s_MainActivity_loadImage1(
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_d_1alz_s_MainActivity_loadImage2(
+Java_org_ece_owngallery_activity_CompareResult_loadImage2(
         JNIEnv *env,
         jobject,
         jstring imageFileName,
@@ -38,7 +36,7 @@ Java_com_example_d_1alz_s_MainActivity_loadImage2(
 
     const char *nativeFileNameString = env->GetStringUTFChars(imageFileName, JNI_FALSE);
 
-    string baseDir("/storage/emulated/0/DCIM/Camera/");
+    string baseDir("");
     baseDir.append(nativeFileNameString);
     const char *pathDir = baseDir.c_str();
 
@@ -47,7 +45,7 @@ Java_com_example_d_1alz_s_MainActivity_loadImage2(
 }
 
 JNIEXPORT jint JNICALL
-Java_com_example_d_1alz_s_MainActivity_compare(
+Java_org_ece_owngallery_activity_CompareResult_compare(
         JNIEnv *env,
         jobject,
         jlong addrInputImage,
@@ -99,7 +97,7 @@ Java_com_example_d_1alz_s_MainActivity_compare(
     if (result2 > 1.5) count++;
     if (result3 < 0.3) count++;
 
-    if (count >= 3) retVal = 1;
+    if (count >= 2) retVal = 1;
 
     return retVal;
 }
